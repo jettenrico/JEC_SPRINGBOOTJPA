@@ -17,33 +17,24 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "MstSuppliers")
-public class Suppliers {
+@Table(name = "MstWarehouses")
+public class Warehouses {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SupplierID")
+    @Column(name = "WarehouseID")
     private Long id;
 
-    @ManyToOne
-    private Warehouses warehouses;
-
-    @NotEmpty(message = ConstantMessage.WARNING_BLANK_COMPANY)
-    @Column(name = "CompanyName",length = 50,nullable = false,unique = true)
-    private String companyName;
-
-    @NotEmpty(message = ConstantMessage.WARNING_BLANK_COMPANY)
-    @Column(name = "SupervisorName",length = 70,nullable = false)
-    private String supervisorName;
-
-    @Column(name = "CompanyAddress", nullable = false)
+    @NotEmpty(message = ConstantMessage.WARNING_BLANK_ADDRESS)
+    @Column(name = "WarehouseAddress", nullable = false,unique = true)
     private String address;
 
-    @Column(name = "CompanyEmail",length = 50 ,nullable = false,unique = true)
-    private String email;
+    @NotEmpty(message = ConstantMessage.WARNING_BLANK_SUPERVISOR)
+    @Column(name = "WarehouseSupervisor",length = 50 ,nullable = false)
+    private String warehouseSpv;
 
-    @Column(name = "CompanyPhoneNumber", length = 16, nullable = false, unique = true)
-    private String phoneNumber;
+    @Column(name = "WarehouseDescription", nullable = true)
+    private String warehouseDesc;
 
     @Column(name = "CreatedBy",nullable = false)
     private String createdBy = "1";
@@ -61,6 +52,6 @@ public class Suppliers {
     @Column(name = "IsActive",nullable = false)
     private boolean isActive = true;
 
-    public Suppliers() {
+    public Warehouses() {
     }
 }

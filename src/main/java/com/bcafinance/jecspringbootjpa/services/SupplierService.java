@@ -84,6 +84,7 @@ public class SupplierService {
         if(suppliers.getAddress()==null)throw new DataIntegrityViolationException(ConstantMessage.ERROR_DATA_INVALID);
         if(suppliers.getSupervisorName()==null)throw new DataIntegrityViolationException(ConstantMessage.ERROR_DATA_INVALID);
         if(suppliers.getPhoneNumber()==null)throw new DataIntegrityViolationException(ConstantMessage.ERROR_DATA_INVALID);
+        if(suppliers.getWarehouses()==null)throw new DataIntegrityViolationException(ConstantMessage.ERROR_DATA_INVALID);
 
         FormatValidation.phoneNumberFormatValidation(suppliers.getPhoneNumber());
         FormatValidation.emailFormatValidation(suppliers.getEmail());
@@ -95,6 +96,12 @@ public class SupplierService {
         }
         supplierRepo.save(suppliers);
     }
+
+    @Transactional(rollbackFor = {Exception.class})
+    public void saveAllSuppliers(List<Suppliers> lssup){
+        supplierRepo.saveAll(lssup);
+    }
+
     @Transactional
     public void updateSupplierById(Suppliers s) throws Exception{
 

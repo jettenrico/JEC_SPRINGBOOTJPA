@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -39,13 +40,19 @@ public class SupplierController {
 
     @PostMapping("/v1/suppliers")
     public ResponseEntity<Object>
-    saveSupplier(@RequestBody Suppliers suppliers) throws Exception {
-
+    saveSupplier(@Valid @RequestBody Suppliers suppliers) throws Exception {
         if(suppliers==null)throw new ResourceNotFoundException(ConstantMessage.ERROR_NO_CONTENT);
         supplierService.saveSuppliers(suppliers);
         return new ResponseHandler().generateResponse(ConstantMessage.SUCCESS_SAVE,HttpStatus.CREATED,null,null,null);
     }
 
+    @PostMapping("/v1/suppliers/bulk")
+    public  ResponseEntity<Object>
+    saveAllSupplier(@RequestBody List <Suppliers> suppliers) throws Exception{
+        if (suppliers == null) throw new ResourceNotFoundException(ConstantMessage.ERROR_NO_CONTENT);
+        supplierService.saveAllSuppliers(suppliers);
+        return new ResponseHandler().generateResponse(ConstantMessage.SUCCESS_SAVE_BULK, HttpStatus.CREATED,null,null,null);
+    }
     @GetMapping("/v1/suppliers/{id}")
     public ResponseEntity<Object> getSuppliersById(@PathVariable("id") long id) throws Exception {
         Suppliers suppliers = supplierService.findByIdSuplliers(id);

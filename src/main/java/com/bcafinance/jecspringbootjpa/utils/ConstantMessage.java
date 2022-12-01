@@ -55,6 +55,12 @@ public class ConstantMessage {
     public final static String WARNING_SUPPLIER_EMAIL_NOT_FOUND = "EMAIL SUPPLIER TIDAK DITEMUKAN";
     public final static String WARNING_NOT_FOUND_SUPPLIER = "NAMA PERUSAHAAN TIDAK DITEMUKAN";
     public final static String WARNING_NOT_FOUND_SUPERVISOR = "NAMA SUPERVISOR TIDAK DITEMUKAN";
+    public final static String WARNING_BLANK_COMPANY = "NAMA PERUSAHAAN TIDAK BOLEH KOSONG!";
+    public final static String SUCCESS_SAVE_BULK = "BULK INSERT BERHASIL";
 
+    /*Warehouses*/
+    public final static String WARNING_BLANK_ADDRESS = "ALAMAT WAREHOUSE TIDAK BOLEH KOSONG";
+    public final static String WARNING_BLANK_SUPERVISOR = "SUPERVISOR WAREHOUSE TIDAK BOLEH KOSONG";
+    public final static String WARNING_WAREHOUSE_NOT_FOUND = "WAREHOUSE BELUM TERDAFTAR";
 
 }
