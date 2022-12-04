@@ -8,12 +8,19 @@ Created on 11/30/2022
 Version 1.0
 */
 
+import com.bcafinance.jecspringbootjpa.dto.SuppliersDTO;
+import com.bcafinance.jecspringbootjpa.dto.WarehousesDTO;
 import com.bcafinance.jecspringbootjpa.handler.ResourceNotFoundException;
 import com.bcafinance.jecspringbootjpa.handler.ResponseHandler;
 import com.bcafinance.jecspringbootjpa.models.Suppliers;
+import com.bcafinance.jecspringbootjpa.models.Warehouses;
 import com.bcafinance.jecspringbootjpa.services.SupplierService;
 import com.bcafinance.jecspringbootjpa.utils.ConstantMessage;
 import lombok.Getter;
+import org.dom4j.rule.Mode;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +36,8 @@ public class SupplierController {
     @Getter
     private SupplierService supplierService;
 
+    @Autowired
+    private ModelMapper modelMapper;
 
     public SupplierController() {
     }
@@ -68,7 +77,7 @@ public class SupplierController {
         }
     }
 
-    @GetMapping("/v1/suppliers/datas/all/0")
+    @GetMapping("/v1/suppliers/datas/all")
     public ResponseEntity<Object> findAllSuppliers()throws Exception{
 
         int data = 0;
@@ -81,6 +90,31 @@ public class SupplierController {
 
         return new ResponseHandler().
                 generateResponse(ConstantMessage.SUCCESS_FIND_BY,HttpStatus.OK,lsSuppliers,null,null);
+    }
+
+    @GetMapping("/v1/suppliers/datas/dto/all")
+    public ResponseEntity<Object> findAllSuppliersDTO()throws Exception{
+
+        List<Suppliers> lsSuppliers = supplierService.findAllSuppliers();
+
+        if(lsSuppliers.size()==0)
+        {
+            throw new ResourceNotFoundException(ConstantMessage.WARNING_DATA_EMPTY);
+        }
+
+//        if(modelMapper.getTypeMap(Suppliers.class,SuppliersDTO.class)==null){
+//            TypeMap<Suppliers, SuppliersDTO> propertyMapper = modelMapper.createTypeMap(Suppliers.class, SuppliersDTO.class);
+//            propertyMapper.addMappings(
+//                    mapper -> mapper.map(src -> src.getWarehouses().getAddress(), SuppliersDTO::setWarehouseAddress)
+//            );
+//            propertyMapper.addMappings(
+//                    mapper -> mapper.map(src -> src.getWarehouses().getWarehouseSpv(), SuppliersDTO::setWarehouseSupervisorName)
+//            );
+//        }
+        List<SuppliersDTO> lsSuppliersDTO = modelMapper.map(lsSuppliers, new TypeToken<List<SuppliersDTO>>() {}.getType());
+
+        return new ResponseHandler().
+                generateResponse(ConstantMessage.SUCCESS_FIND_BY,HttpStatus.OK,lsSuppliersDTO,null,null);
     }
 
     @GetMapping("/v1/suppliers/datas/search/{email}")

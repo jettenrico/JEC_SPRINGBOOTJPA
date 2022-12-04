@@ -10,7 +10,6 @@ Version 1.0
 
 import com.bcafinance.jecspringbootjpa.utils.ConstantMessage;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -21,29 +20,26 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-//@Data
 @Entity
-@Table(name = "MstWarehouses")
-public class Warehouses implements Serializable {
+@Table(name = "MstStores")
+public class Stores implements Serializable {
 
-    private static final long serialversionUID = 1L;
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "WarehouseId")
+    @Column(name = "StoreId")
     private Long id;
 
+    @Length(message = ConstantMessage.WARNING_STORES_MAX_LENGTH)
+    @NotEmpty(message = ConstantMessage.WARNING_BLANK_STORES)
+    @Column(name = "StoreName", nullable = false, length = 50)
+    private String storeName;
+
     @Length(message = ConstantMessage.WARNING_WAREHOUSE_ADDRESS_MAX_LENGTH)
-    @NotEmpty(message = ConstantMessage.WARNING_BLANK_ADDRESS)
-    @Column(name = "WarehouseAddress", nullable = false,unique = true)
-    private String address;
-
-    @Length(message = ConstantMessage.WARNING_WAREHOUSE_SUPERVISOR_MAX_LENGTH)
-    @NotEmpty(message = ConstantMessage.WARNING_BLANK_SUPERVISOR)
-    @Column(name = "WarehouseSupervisor",length = 50 ,nullable = false)
-    private String warehouseSpv;
-
-    @Column(name = "WarehouseDescription", nullable = true)
-    private String warehouseDesc;
+    @NotEmpty(message = ConstantMessage.WARNING_BLANK_ADDRESS_STORE)
+    @Column(name = "StoreAddress", nullable = false,unique = true)
+    private String addressStore;
 
     @Column(name = "CreatedBy",nullable = false)
     private String createdBy = "1";
@@ -60,10 +56,15 @@ public class Warehouses implements Serializable {
 
     @Column(name = "IsActive",nullable = false)
     private boolean isActive = true;
-    @ManyToMany(mappedBy = "warehouses")
-    @JsonBackReference
-    private Set<Stores> storesList = new HashSet<Stores>();
 
+    @ManyToMany
+    @JoinTable(
+            name ="StoreWarehouse",
+            joinColumns = @JoinColumn(name = "StoreId", referencedColumnName = "StoreId"),
+            inverseJoinColumns = @JoinColumn(name = "WarehouseId",referencedColumnName = "WarehouseId")
+    )
+//    @JsonManagedReference
+    private Set<Warehouses> warehouses = new HashSet<Warehouses>();
 
     public Long getId() {
         return id;
@@ -73,28 +74,20 @@ public class Warehouses implements Serializable {
         this.id = id;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
-    public String getWarehouseSpv() {
-        return warehouseSpv;
+    public String getAddressStore() {
+        return addressStore;
     }
 
-    public void setWarehouseSpv(String warehouseSpv) {
-        this.warehouseSpv = warehouseSpv;
-    }
-
-    public String getWarehouseDesc() {
-        return warehouseDesc;
-    }
-
-    public void setWarehouseDesc(String warehouseDesc) {
-        this.warehouseDesc = warehouseDesc;
+    public void setAddressStore(String addressStore) {
+        this.addressStore = addressStore;
     }
 
     public String getCreatedBy() {
@@ -137,11 +130,11 @@ public class Warehouses implements Serializable {
         isActive = active;
     }
 
-    public Set<Stores> getStoresList() {
-        return storesList;
+    public Set<Warehouses> getWarehouses() {
+        return warehouses;
     }
 
-    public void setStoresList(Set<Stores> storesList) {
-        this.storesList = storesList;
+    public void setWarehouses(Set<Warehouses> warehouses) {
+        this.warehouses = warehouses;
     }
 }

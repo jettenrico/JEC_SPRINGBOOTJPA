@@ -23,10 +23,11 @@ public class ConstantMessage {
 
     /*Global*/
     public final static String SUCCESS_SAVE = "DATA BERHASIL DIBUAT";
+    public final static String SUCCESS_SAVE_BULK = "BULK INSERT BERHASIL";
     public final static String SUCCESS_FIND_BY = "OK";
     public final static String WARNING_NOT_FOUND = "DATA TIDAK DITEMUKAN";
     public final static String WARNING_DATA_EMPTY = "DATA TIDAK ADA";
-
+    public final static String SUCCESS_SEND_EMAIL = "SILAHKAN CEK EMAIL YANG TELAH ANDA DAFTARKAN";
     public final static String ERROR_DATA_INVALID = "DATA TIDAK VALID";
     public final static String ERROR_INTERNAL_SERVER = "INTERNAL SERVER ERROR";
     public final static String ERROR_MAIL_FORM_JSON = "Malformed JSON request";
@@ -56,11 +57,25 @@ public class ConstantMessage {
     public final static String WARNING_NOT_FOUND_SUPPLIER = "NAMA PERUSAHAAN TIDAK DITEMUKAN";
     public final static String WARNING_NOT_FOUND_SUPERVISOR = "NAMA SUPERVISOR TIDAK DITEMUKAN";
     public final static String WARNING_BLANK_COMPANY = "NAMA PERUSAHAAN TIDAK BOLEH KOSONG!";
-    public final static String SUCCESS_SAVE_BULK = "BULK INSERT BERHASIL";
 
     /*Warehouses*/
     public final static String WARNING_BLANK_ADDRESS = "ALAMAT WAREHOUSE TIDAK BOLEH KOSONG";
     public final static String WARNING_BLANK_SUPERVISOR = "SUPERVISOR WAREHOUSE TIDAK BOLEH KOSONG";
     public final static String WARNING_WAREHOUSE_NOT_FOUND = "WAREHOUSE BELUM TERDAFTAR";
+    public final static String WARNING_WAREHOUSE_ADDRESS_MAX_LENGTH = "ALAMAT WAREHOUUSE TERLALU PANJANG";
+    public final static String WARNING_WAREHOUSE_SUPERVISOR_MAX_LENGTH = "NAMA SUPERVISOR WAREHOUSE TERLALU PANJANG";
 
+    /*Stores*/
+    public final static String WARNING_STORES_MAX_LENGTH = "NAMA TOKO TERLALU PANJANG";
+    public final static String WARNING_BLANK_STORES = "NAMA TOKO TIDAK BOLEH KOSONG";
+    public final static String WARNING_BLANK_ADDRESS_STORE = "ALAMAT WAREHOUSE TIDAK BOLEH KOSONG";
+    public final static String WARNING_STORE_NOT_FOUND = "TOKO BELUM TERDAFTAR";
+
+    /*Users*/
+    public final static String WARNING_USER_FULLNAME_MANDATORY = "NAMA ANDA TIDAK BOLEH KOSONG";
+    public final static String WARNING_USER_BIRTHDATE_MANDATORY = "TANGGAL LAHIR ANDA TIDAK BOLEH KOSONG";
+    public final static String WARNING_USER_EMAIL_MANDATORY = "EMAIL ANDA TIDAK BOLEH KOSONG";
+    public final static String WARNING_USER_PASSWORD_MANDATORY = "PASSWORD ANDA TIDAK BOLEH KOSONG";
+    public final static String WARNING_FAILED_AUTHENTICATION = "OTENTIKASI GAGAL";
+    public final static String SUCCESS_AUTHENTICATION = "EMAIL VALID";
 }

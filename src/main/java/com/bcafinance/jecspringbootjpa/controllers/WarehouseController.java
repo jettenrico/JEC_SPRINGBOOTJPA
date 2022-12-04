@@ -8,12 +8,19 @@ Created on 11/30/2022
 Version 1.0
 */
 
+import com.bcafinance.jecspringbootjpa.dto.SuppliersDTO;
+import com.bcafinance.jecspringbootjpa.dto.WarehousesDTO;
 import com.bcafinance.jecspringbootjpa.handler.ResourceNotFoundException;
 import com.bcafinance.jecspringbootjpa.handler.ResponseHandler;
+import com.bcafinance.jecspringbootjpa.models.Stores;
+import com.bcafinance.jecspringbootjpa.models.Suppliers;
 import com.bcafinance.jecspringbootjpa.models.Warehouses;
+import com.bcafinance.jecspringbootjpa.services.SupplierService;
 import com.bcafinance.jecspringbootjpa.services.WarehouseService;
 import com.bcafinance.jecspringbootjpa.utils.ConstantMessage;
 import lombok.Getter;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +36,8 @@ public class WarehouseController {
     @Getter
     private WarehouseService warehouseService;
 
+    @Autowired
+    private ModelMapper modelMapper;
 
     public WarehouseController() {
     }
@@ -82,6 +91,21 @@ public class WarehouseController {
                 generateResponse(ConstantMessage.SUCCESS_FIND_BY,HttpStatus.OK,lsWarehouses,null,null);
     }
 
+    @GetMapping("/v1/warehouses/datas/dto/all")
+    public ResponseEntity<Object> findAllWarehousesDTO()throws Exception{
+
+        List<Warehouses> lsWarehouses = warehouseService.findAllWarehouses();
+
+        if(lsWarehouses.size()==0)
+        {
+            throw new ResourceNotFoundException(ConstantMessage.WARNING_DATA_EMPTY);
+        }
+        List<WarehousesDTO> lsWarehousesDTO = modelMapper.map(lsWarehouses, new TypeToken<List<WarehousesDTO>>() {}.getType());
+
+        return new ResponseHandler().
+                generateResponse(ConstantMessage.SUCCESS_FIND_BY,HttpStatus.OK,lsWarehousesDTO,null,null);
+    }
+
     @GetMapping("/v1/warehouses/address/search/{address}")
     public ResponseEntity<Object> getWarehouseByAddress(@PathVariable("address") String address)throws Exception{
         return new ResponseHandler().
@@ -89,9 +113,14 @@ public class WarehouseController {
     }
 
     @PutMapping("/v1/warehouses/update")
-    public ResponseEntity<Object> updateWarehouseById(@RequestBody Warehouses warehouses)throws Exception{
+    public ResponseEntity<Object> updateWarehouseByID(@RequestBody Warehouses warehouses)throws Exception{
         warehouseService.updateWarehouseById(warehouses);
         return new ResponseHandler().
                 generateResponse(ConstantMessage.SUCCESS_FIND_BY,HttpStatus.OK,"",null,null);
     }
+
+//    @PostMapping("/v1/warehouses/store/{id}")
+//    public void addStore(@RequestBody Stores stores, @PathVariable("id") Long warehouseId) throws Exception {
+//        warehouseService.addStore(stores,warehouseId);
+//    }
 }

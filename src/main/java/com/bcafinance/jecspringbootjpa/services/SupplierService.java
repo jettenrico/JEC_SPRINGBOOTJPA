@@ -153,5 +153,11 @@ public class SupplierService {
             FormatValidation.phoneNumberFormatValidation(s.getPhoneNumber());
             suppliers.setPhoneNumber(s.getPhoneNumber());
         }
+
+        if(s.getWarehouses() != null
+            && !Objects.equals(suppliers.getWarehouses(),s.getWarehouses())
+            && !s.getWarehouses().equals("")){
+            suppliers.setWarehouses(s.getWarehouses());;
+        }
     }
 }
