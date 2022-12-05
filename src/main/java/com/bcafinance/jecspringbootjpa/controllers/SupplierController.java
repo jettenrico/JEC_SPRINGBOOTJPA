@@ -77,10 +77,21 @@ public class SupplierController {
         }
     }
 
+    @GetMapping("/v1/suppliers/dto/{id}")
+    public ResponseEntity<Object> findSuppliersByIdDTO(@PathVariable("id") long id)throws Exception{
+       Suppliers suppliers = supplierService.findByIdSuplliers(id);
+
+       if(suppliers != null){
+           SuppliersDTO suppliersDTO = modelMapper.map(suppliers, SuppliersDTO.class);
+           return new ResponseHandler().generateResponse(ConstantMessage.SUCCESS_FIND_BY, HttpStatus.OK, suppliersDTO, null, null);
+       }else{
+           throw new ResourceNotFoundException(ConstantMessage.WARNING_NOT_FOUND);
+       }
+    }
+
     @GetMapping("/v1/suppliers/datas/all")
     public ResponseEntity<Object> findAllSuppliers()throws Exception{
 
-        int data = 0;
         List<Suppliers> lsSuppliers = supplierService.findAllSuppliers();
 
         if(lsSuppliers.size()==0)
@@ -141,6 +152,22 @@ public class SupplierController {
                     generateResponse(ConstantMessage.SUCCESS_FIND_BY,HttpStatus.OK,supplierService.findCompanyNameContaining(name),null,null);
         }
     }
+
+    @GetMapping("/v1/suppliers/companies/dto/{name}")
+    public ResponseEntity<Object> getCompanyContainingDTO(@PathVariable("name") String name)throws Exception{
+
+        List<Suppliers> lsSuppliers = supplierService.findCompanyNameContaining(name);
+
+        if(lsSuppliers.size()==0)
+        {
+            throw new ResourceNotFoundException(ConstantMessage.WARNING_DATA_EMPTY);
+        }
+        List<SuppliersDTO> lsSuppliersDTO = modelMapper.map(lsSuppliers, new TypeToken<List<SuppliersDTO>>() {}.getType());
+
+        return new ResponseHandler().
+                generateResponse(ConstantMessage.SUCCESS_FIND_BY,HttpStatus.OK,lsSuppliersDTO,null,null);
+    }
+
 
     @GetMapping("/v1/suppliers/companies/starts/{name}")
     public ResponseEntity<Object> getCompanyNameStartWih(@PathVariable("name") String name)throws Exception{

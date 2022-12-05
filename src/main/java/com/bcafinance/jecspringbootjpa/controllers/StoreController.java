@@ -9,6 +9,7 @@ Version 1.0
 */
 
 import com.bcafinance.jecspringbootjpa.dto.StoresDTO;
+import com.bcafinance.jecspringbootjpa.dto.WarehousesDTO;
 import com.bcafinance.jecspringbootjpa.handler.ResourceNotFoundException;
 import com.bcafinance.jecspringbootjpa.handler.ResponseHandler;
 import com.bcafinance.jecspringbootjpa.models.Stores;
@@ -89,6 +90,19 @@ public class StoreController {
         }
     }
 
+    @GetMapping("/v1/stores/dto/{id}")
+    public ResponseEntity<Object> findStoresByIdDTO(@PathVariable("id") long id)throws Exception{
+        Stores stores = storeService.findByIdStores(id);
+
+        if(stores != null){
+            StoresDTO storesDTO = modelMapper.map(stores, StoresDTO.class);
+            return new ResponseHandler().generateResponse(ConstantMessage.SUCCESS_FIND_BY, HttpStatus.OK, storesDTO, null, null);
+        }else{
+            throw new ResourceNotFoundException(ConstantMessage.WARNING_NOT_FOUND);
+        }
+    }
+
+
     @GetMapping("/v1/stores/datas/dto/all")
     public ResponseEntity<Object> findAllStoresDTO()throws Exception{
 
@@ -108,6 +122,21 @@ public class StoreController {
     public ResponseEntity<Object> getStoreByName(@PathVariable("name") String name)throws Exception{
         return new ResponseHandler().
                 generateResponse(ConstantMessage.SUCCESS_FIND_BY,HttpStatus.OK,storeService.findStoreByName(name),null,null);
+    }
+
+    @GetMapping("/v1/stores/storename/search/dto/{name}")
+    public ResponseEntity<Object> getStoresByNameDTO(@PathVariable("name") String name)throws Exception{
+        List<Stores> lsStores = storeService.findStoreByName(name);
+
+        if(lsStores.size()==0)
+        {
+            throw new ResourceNotFoundException(ConstantMessage.WARNING_DATA_EMPTY);
+        }
+        List<StoresDTO> lsStoresDTO = modelMapper.map(lsStores, new TypeToken<List<StoresDTO>>() {}.getType());
+
+        return new ResponseHandler().
+                generateResponse(ConstantMessage.SUCCESS_FIND_BY,HttpStatus.OK,lsStoresDTO,null,null);
+
     }
 //
     @PutMapping("/v1/stores/update")

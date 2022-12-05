@@ -15,7 +15,6 @@ import com.bcafinance.jecspringbootjpa.handler.ResponseHandler;
 import com.bcafinance.jecspringbootjpa.models.Stores;
 import com.bcafinance.jecspringbootjpa.models.Suppliers;
 import com.bcafinance.jecspringbootjpa.models.Warehouses;
-import com.bcafinance.jecspringbootjpa.services.SupplierService;
 import com.bcafinance.jecspringbootjpa.services.WarehouseService;
 import com.bcafinance.jecspringbootjpa.utils.ConstantMessage;
 import lombok.Getter;
@@ -77,6 +76,18 @@ public class WarehouseController {
         }
     }
 
+    @GetMapping("/v1/warehouses/dto/{id}")
+    public ResponseEntity<Object> findWarehousesByIdDTO(@PathVariable("id") long id)throws Exception{
+        Warehouses warehouses = warehouseService.findByIdWarehouses(id);
+
+        if(warehouses != null){
+            WarehousesDTO warehousesDTO = modelMapper.map(warehouses, WarehousesDTO.class);
+            return new ResponseHandler().generateResponse(ConstantMessage.SUCCESS_FIND_BY, HttpStatus.OK, warehousesDTO, null, null);
+        }else{
+            throw new ResourceNotFoundException(ConstantMessage.WARNING_NOT_FOUND);
+        }
+    }
+
     @GetMapping("/v1/warehouses/datas/all/0")
     public ResponseEntity<Object> findAllWarehouses()throws Exception{
 
@@ -110,6 +121,22 @@ public class WarehouseController {
     public ResponseEntity<Object> getWarehouseByAddress(@PathVariable("address") String address)throws Exception{
         return new ResponseHandler().
                 generateResponse(ConstantMessage.SUCCESS_FIND_BY,HttpStatus.OK,warehouseService.findWarehouseByAddress(address),null,null);
+    }
+
+    @GetMapping("/v1/warehouses/address/search/dto/{address}")
+    public ResponseEntity<Object> getWarehousesByAddressDTO(@PathVariable("address") String address)throws Exception{
+//        Warehouses warehouses = warehouseService.findWarehouseByAddress(address);
+        List<Warehouses> lsWarehouses = warehouseService.findWarehouseByAddress(address);
+
+        if(lsWarehouses.size()==0)
+            {
+                throw new ResourceNotFoundException(ConstantMessage.WARNING_DATA_EMPTY);
+            }
+            List<WarehousesDTO> lsWarehousesDTO = modelMapper.map(lsWarehouses, new TypeToken<List<WarehousesDTO>>() {}.getType());
+
+            return new ResponseHandler().
+                    generateResponse(ConstantMessage.SUCCESS_FIND_BY,HttpStatus.OK,lsWarehousesDTO,null,null);
+
     }
 
     @PutMapping("/v1/warehouses/update")
