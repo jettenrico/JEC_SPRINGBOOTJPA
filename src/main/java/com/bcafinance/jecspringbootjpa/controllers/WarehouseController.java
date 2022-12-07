@@ -125,7 +125,6 @@ public class WarehouseController {
 
     @GetMapping("/v1/warehouses/address/search/dto/{address}")
     public ResponseEntity<Object> getWarehousesByAddressDTO(@PathVariable("address") String address)throws Exception{
-//        Warehouses warehouses = warehouseService.findWarehouseByAddress(address);
         List<Warehouses> lsWarehouses = warehouseService.findWarehouseByAddress(address);
 
         if(lsWarehouses.size()==0)

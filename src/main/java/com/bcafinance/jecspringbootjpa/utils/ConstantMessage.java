@@ -22,6 +22,8 @@ public class ConstantMessage {
     public final static String REGEX_DATE_DDMMYYYY  = "^([0-2][0-9]||3[0-1])-(0[0-9]||1[0-2])-([0-9][0-9])?[0-9][0-9]$";
 
     /*Global*/
+    public final static String ERROR_NOT_CSV_FILE = "FORMAT FILE HARUS CSV ";
+    public final static String ERROR_UPLOAD_CSV = "UPLOAD FILE GAGAL ";
     public final static String SUCCESS_SAVE = "DATA BERHASIL DIBUAT";
     public final static String SUCCESS_SAVE_BULK = "BULK INSERT BERHASIL";
     public final static String SUCCESS_FIND_BY = "OK";
@@ -78,4 +80,15 @@ public class ConstantMessage {
     public final static String WARNING_USER_PASSWORD_MANDATORY = "PASSWORD ANDA TIDAK BOLEH KOSONG";
     public final static String WARNING_FAILED_AUTHENTICATION = "OTENTIKASI GAGAL";
     public final static String SUCCESS_AUTHENTICATION = "EMAIL VALID";
+
+    /*CONTENT TYPE*/
+    public final static String CONTENT_TYPE_CSV = "text/csv";
+
+    /*Accounts*/
+    public final static String WARNING_REK_SOURCE_EMPTY = "REKENING ANDA TIDAK TERDAFTAR";
+    public final static String WARNING_REK_DESTINATION_EMPTY = "REKENING TUJUAN TIDAK TERDAFTAR";
+    public final static String WARNING_REK_JUMLAH_EMPTY = "JUMLAH TRANSFER TIDAK BOLEH KOSONG";
+    public final static String WARNING_SALDO = "SALDO TIDAK MENCUKUPI";
+    public final static String SUCCESS_TRANSFER = "TRANSFER BERHASIL";
+    public final static String SUCCESS_ADD_REKENING = "SUKSES TAMBAH REKENING";
 }
